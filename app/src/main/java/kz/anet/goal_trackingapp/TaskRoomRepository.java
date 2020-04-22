@@ -31,4 +31,8 @@ public class TaskRoomRepository {
     public Completable delete(Task task) {
         return taskDao.delete(task);
     }
+
+    public Completable update(Task task) {
+        return taskDao.update(task);
+    }
 }

@@ -15,17 +15,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import kz.anet.goal_trackingapp.listener.OnDoneClickListener;
+
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHolder>{
 
     private List<Task> tasks;
     private Context mContext;
-    public TasksAdapter(Context context) {
+    private OnDoneClickListener doneClickListener;
+    public TasksAdapter(Context context, OnDoneClickListener doneClickListener) {
         tasks = new ArrayList<>();
         mContext = context;
+        this.doneClickListener = doneClickListener;
     }
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
     }
 
     @NonNull
@@ -43,9 +51,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
         holder.createdAtDate.setText(currentTask.getCreatedAtDate());
         holder.createdAtTime.setText(currentTask.getCreatedAtTime());
         if(currentTask.getDone()){
+            holder.done.setBackgroundResource(0);
             holder.done.setImageResource(R.drawable.done);
         }else{
             Drawable drawable = ContextCompat.getDrawable(mContext,R.drawable.circle_done);
+            holder.done.setImageResource(0);
             holder.done.setBackground(drawable);
         }
         // done
@@ -71,6 +81,11 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHol
             calendar = itemView.findViewById(R.id.img_calendar);
             time = itemView.findViewById(R.id.img_time);
             createdAtTime = itemView.findViewById(R.id.txt_created_time);
+
+            done.setOnClickListener((view)-> {
+                Task currentTask = tasks.get(getAdapterPosition());
+                doneClickListener.onDoneClick(currentTask);
+            });
         }
     }
 }

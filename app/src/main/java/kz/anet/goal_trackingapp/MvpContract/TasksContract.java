@@ -9,11 +9,13 @@ import kz.anet.goal_trackingapp.Task;
 public interface TasksContract {
     interface View{
         void showTasks(List<Task> tasks);
+        void dataChanged();
     }
     interface Presenter{
-        void getTasks();
+        void showTasks();
         void insertTask(Task task);
         void deleteTask(Task task);
+        void updateTask(Task task);
         void onAttach(TasksContract.View view);
         void onDetach();
     }
@@ -21,5 +23,6 @@ public interface TasksContract {
         Single<List<Task>> getTasks();
         Completable insertTask(Task task);
         Completable deleteTask(Task task);
+        Completable updateTask(Task task);
     }
 }

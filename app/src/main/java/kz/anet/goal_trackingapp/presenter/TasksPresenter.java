@@ -3,10 +3,13 @@ package kz.anet.goal_trackingapp.presenter;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.Collections;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import kz.anet.goal_trackingapp.DoneTasksComparator;
 import kz.anet.goal_trackingapp.MvpContract.TasksContract;
 import kz.anet.goal_trackingapp.Task;
 import kz.anet.goal_trackingapp.model.TaskModel;
@@ -25,10 +28,14 @@ public class TasksPresenter implements TasksContract.Presenter {
     }
 
     @Override
-    public void getTasks() {
+    public void showTasks() {
         Disposable disposable = model.getTasks()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .map((unsortedList) -> {
+                    Collections.sort(unsortedList, new DoneTasksComparator());
+                    return unsortedList;
+                })
                 .subscribe(
                         (tasks) -> view.showTasks(tasks),
                         (error) ->  Log.d("test", "error on get Task presenter")
@@ -42,7 +49,7 @@ public class TasksPresenter implements TasksContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        ()-> Log.d("test", "succ insert")
+                        () -> view.dataChanged()
                 );
         mSubscriptions.add(disposable);
     }
@@ -53,7 +60,20 @@ public class TasksPresenter implements TasksContract.Presenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        ()-> Log.d("test", "succ insert")
+                        () -> view.dataChanged()
+                );
+        mSubscriptions.add(disposable);
+    }
+
+    @Override
+    public void updateTask(Task task) {
+        Boolean newMode = !task.getDone();
+        task.setDone(newMode);
+        Disposable disposable = model.updateTask(task)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        ()-> view.dataChanged()
                 );
         mSubscriptions.add(disposable);
     }
@@ -68,4 +88,6 @@ public class TasksPresenter implements TasksContract.Presenter {
         view = null;
         mSubscriptions.dispose();
     }
+
+
 }
