@@ -6,12 +6,12 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import kz.anet.goal_trackingapp.Task;
+import kz.anet.goal_trackingapp.TaskDto;
 
-@Database(entities = {Task.class}, version = 1, exportSchema = false)
+@Database(entities = {TaskDto.class}, version = 1, exportSchema = false)
 public abstract class TaskDatabase extends RoomDatabase {
     private static TaskDatabase INSTANCE;
-    private static final String DB_NAME = "tasks7.db";
+    private static final String DB_NAME = "tasks8.db";
 
     public static TaskDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {

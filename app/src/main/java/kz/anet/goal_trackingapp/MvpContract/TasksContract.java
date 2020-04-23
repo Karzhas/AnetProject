@@ -5,6 +5,7 @@ import java.util.List;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import kz.anet.goal_trackingapp.Task;
+import kz.anet.goal_trackingapp.TaskDto;
 
 public interface TasksContract {
     interface View{
@@ -20,9 +21,9 @@ public interface TasksContract {
         void onDetach();
     }
     interface Model{
-        Single<List<Task>> getTasks();
-        Completable insertTask(Task task);
-        Completable deleteTask(Task task);
-        Completable updateTask(Task task);
+        Single<List<TaskDto>> getTasks();
+        Completable insertTask(TaskDto task);
+        Completable deleteTask(TaskDto task);
+        Completable updateTask(TaskDto task);
     }
 }

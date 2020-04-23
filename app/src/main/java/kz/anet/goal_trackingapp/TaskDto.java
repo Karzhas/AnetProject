@@ -1,49 +1,30 @@
 package kz.anet.goal_trackingapp;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Task implements Parcelable {
-
+@Entity(tableName = "Tasks")
+public class TaskDto {
+    @PrimaryKey(autoGenerate = true)
     private int uid;
+    @ColumnInfo(name = "done")
     private Boolean isDone;
     private String createdAtDate;
     private String createdAtTime;
     private String finishedAt;
     private String title;
+    @TypeConverters({PhotosConverter.class})
     private List<String> photos = new ArrayList<>();
     private String description;
 
-    public Task() {
-    }
+    public TaskDto(){}
 
 
-    protected Task(Parcel in) {
-        uid = in.readInt();
-        byte tmpIsDone = in.readByte();
-        isDone = tmpIsDone == 0 ? null : tmpIsDone == 1;
-        createdAtDate = in.readString();
-        createdAtTime = in.readString();
-        finishedAt = in.readString();
-        title = in.readString();
-        photos = in.createStringArrayList();
-        description = in.readString();
-    }
-
-    public static final Creator<Task> CREATOR = new Creator<Task>() {
-        @Override
-        public Task createFromParcel(Parcel in) {
-            return new Task(in);
-        }
-
-        @Override
-        public Task[] newArray(int size) {
-            return new Task[size];
-        }
-    };
 
     public int getUid() {
         return uid;
@@ -107,23 +88,5 @@ public class Task implements Parcelable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-        dest.writeInt(uid);
-        dest.writeByte((byte) (isDone == null ? 0 : isDone ? 1 : 2));
-        dest.writeString(createdAtDate);
-        dest.writeString(createdAtTime);
-        dest.writeString(finishedAt);
-        dest.writeString(title);
-        dest.writeStringList(photos);
-        dest.writeString(description);
     }
 }

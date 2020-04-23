@@ -10,21 +10,21 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import kz.anet.goal_trackingapp.Task;
+import kz.anet.goal_trackingapp.TaskDto;
 
 @Dao
 public interface TaskDao {
 
     @Query("SELECT * FROM Tasks")
-    Single<List<Task>> getAll();
+    Single<List<TaskDto>> getAll();
 
     @Insert
-    Completable insertTask(Task task);
+    Completable insertTask(TaskDto task);
 
     @Update
-    Completable update(Task task);
+    Completable update(TaskDto task);
 
     @Delete
-    Completable delete(Task task);
+    Completable delete(TaskDto task);
 
 }

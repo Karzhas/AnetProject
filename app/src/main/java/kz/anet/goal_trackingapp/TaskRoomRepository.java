@@ -20,19 +20,19 @@ public class TaskRoomRepository {
         taskDao = db.taskDao();
     }
 
-    public Single<List<Task>> getAll() {
+    public Single<List<TaskDto>> getAll() {
         return taskDao.getAll();
     }
 
-    public Completable insert(Task task) {
+    public Completable insert(TaskDto task) {
         return taskDao.insertTask(task);
     }
 
-    public Completable delete(Task task) {
+    public Completable delete(TaskDto task) {
         return taskDao.delete(task);
     }
 
-    public Completable update(Task task) {
+    public Completable update(TaskDto task) {
         return taskDao.update(task);
     }
 }
