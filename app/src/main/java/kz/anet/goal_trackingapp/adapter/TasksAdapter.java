@@ -1,4 +1,4 @@
-package kz.anet.goal_trackingapp;
+package kz.anet.goal_trackingapp.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import kz.anet.goal_trackingapp.R;
+import kz.anet.goal_trackingapp.Task;
 import kz.anet.goal_trackingapp.listener.OnDoneClickListener;
 import kz.anet.goal_trackingapp.listener.OnTaskClickListener;
 

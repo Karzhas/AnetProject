@@ -159,10 +159,7 @@ public class SwipeController extends ItemTouchHelper.Callback {
                     swipeBack = false;
 
                     if (buttonsActions != null && buttonInstance != null && buttonInstance.contains(event.getX(), event.getY())) {
-                        if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
-                            buttonsActions.onLeftClicked(viewHolder.getAdapterPosition());
-                        }
-                        else if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
+                        if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
                             buttonsActions.onRightClicked(viewHolder.getAdapterPosition());
                         }
                     }

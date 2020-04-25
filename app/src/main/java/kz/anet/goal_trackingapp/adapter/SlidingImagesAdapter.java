@@ -1,7 +1,10 @@
-package kz.anet.goal_trackingapp;
+package kz.anet.goal_trackingapp.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +14,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import kz.anet.goal_trackingapp.R;
 
 public class SlidingImagesAdapter extends PagerAdapter {
 
@@ -21,6 +28,7 @@ public class SlidingImagesAdapter extends PagerAdapter {
 
     public SlidingImagesAdapter(Context context) {
         this.mContext = context;
+        mImagesUrl = new ArrayList<>();
         mInflater = LayoutInflater.from(context);
     }
 
@@ -50,7 +58,16 @@ public class SlidingImagesAdapter extends PagerAdapter {
         View imageLayout = mInflater.inflate(R.layout.sliding_image, view, false);
         ImageView imageView = imageLayout.findViewById(R.id.branchImage);
         TextView indicator = imageLayout.findViewById(R.id.text_indicator);
-        //Picasso.with(mContext).load(mImagesUrl.get(position)).into(imageView);
+
+        String imagePath = mImagesUrl.get(position);
+        Uri uri = Uri.parse(imagePath);
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), uri);
+            imageView.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         String imagesCounter = (position + 1) + "/" + mImagesUrl.size();
         indicator.setText(imagesCounter);
         view.addView(imageLayout);

@@ -5,6 +5,11 @@ import kz.anet.goal_trackingapp.Task;
 
 public class TaskInformationPresenter implements TaskInformationContract.Presenter {
     TaskInformationContract.View view;
+
+    public TaskInformationPresenter(TaskInformationContract.View view) {
+        this.view = view;
+    }
+
     @Override
     public void getStatus(Task task) {
         view.setStatus(task.getDone());

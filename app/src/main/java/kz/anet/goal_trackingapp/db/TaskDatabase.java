@@ -11,7 +11,7 @@ import kz.anet.goal_trackingapp.TaskDto;
 @Database(entities = {TaskDto.class}, version = 1, exportSchema = false)
 public abstract class TaskDatabase extends RoomDatabase {
     private static TaskDatabase INSTANCE;
-    private static final String DB_NAME = "tasks8.db";
+    private static final String DB_NAME = "tasks14.db";
 
     public static TaskDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {

@@ -24,7 +24,7 @@ import kz.anet.goal_trackingapp.SwipeController;
 import kz.anet.goal_trackingapp.SwipeControllerActions;
 import kz.anet.goal_trackingapp.Task;
 import kz.anet.goal_trackingapp.TaskDto;
-import kz.anet.goal_trackingapp.TasksAdapter;
+import kz.anet.goal_trackingapp.adapter.TasksAdapter;
 import kz.anet.goal_trackingapp.listener.OnDoneClickListener;
 import kz.anet.goal_trackingapp.listener.OnTaskClickListener;
 import kz.anet.goal_trackingapp.presenter.TasksPresenter;
@@ -91,7 +91,6 @@ public class TasksActivity extends AppCompatActivity implements TasksContract.Vi
             @Override
             public void onClick(View v) {
 //                Task t1 = new Task();
-//                Log.d("insssrt", "!!");
 //                t1.setTitle("Learn programming");
 //                t1.setCreatedAtDate("Wed. 13 Jul");
 //                t1.setCreatedAtTime("03:59pm");
@@ -140,11 +139,23 @@ public class TasksActivity extends AppCompatActivity implements TasksContract.Vi
     public void onTaskClick(Task task) {
         Intent intent = new Intent(this, TaskInformationActivity.class);
         intent.putExtra("task", task);
-        startActivity(intent);
+        startActivityForResult(intent, 9);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == 10) {// RESULT_OK
+                    Task task = (Task) data.getParcelableExtra("newTask");
+                    presenter.insertTask(task);
+            }
+        }
+        if(requestCode == 9){
+            if(resultCode == 10){
+                Task task = (Task) data.getParcelableExtra("updatedTask");
+                presenter.updateTask(task);
+            }
+        }
     }
 }
