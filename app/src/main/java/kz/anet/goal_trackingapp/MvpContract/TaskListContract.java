@@ -7,7 +7,7 @@ import io.reactivex.Single;
 import kz.anet.goal_trackingapp.Task;
 import kz.anet.goal_trackingapp.TaskDto;
 
-public interface TasksContract {
+public interface TaskListContract {
     interface View{
         void showTasks(List<Task> tasks);
         void dataChanged();
@@ -17,7 +17,7 @@ public interface TasksContract {
         void insertTask(Task task);
         void deleteTask(Task task);
         void updateTask(Task task);
-        void onAttach(TasksContract.View view);
+        void onAttach(TaskListContract.View view);
         void onDetach();
     }
     interface Model{

@@ -1,11 +1,12 @@
-package kz.anet.goal_trackingapp;
+package kz.anet.goal_trackingapp.main;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import kz.anet.goal_trackingapp.view.TasksActivity;
+import kz.anet.goal_trackingapp.R;
+import kz.anet.goal_trackingapp.view.TaskListActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,6 +14,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startActivity(new Intent(this, TasksActivity.class));
+        startActivity(new Intent(this, TaskListActivity.class));
     }
 }

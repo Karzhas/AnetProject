@@ -1,6 +1,7 @@
 package kz.anet.goal_trackingapp;
 
 public class TaskMapper {
+
     public Task toEntity(TaskDto dto){
         Task task = new Task();
         task.setUid(dto.getUid());

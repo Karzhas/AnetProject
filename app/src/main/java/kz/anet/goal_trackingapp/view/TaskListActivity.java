@@ -10,39 +10,45 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import kz.anet.goal_trackingapp.MvpContract.TasksContract;
+import javax.inject.Inject;
+
+import kz.anet.goal_trackingapp.GoalTrackingApp;
+import kz.anet.goal_trackingapp.MvpContract.TaskListContract;
 import kz.anet.goal_trackingapp.R;
 import kz.anet.goal_trackingapp.SwipeController;
-import kz.anet.goal_trackingapp.SwipeControllerActions;
 import kz.anet.goal_trackingapp.Task;
-import kz.anet.goal_trackingapp.TaskDto;
-import kz.anet.goal_trackingapp.adapter.TasksAdapter;
+import kz.anet.goal_trackingapp.adapter.TaskListAdapter;
+import kz.anet.goal_trackingapp.di.components.DaggerTaskListComponent;
+import kz.anet.goal_trackingapp.di.modules.TaskListModule;
 import kz.anet.goal_trackingapp.listener.OnDoneClickListener;
 import kz.anet.goal_trackingapp.listener.OnTaskClickListener;
-import kz.anet.goal_trackingapp.presenter.TasksPresenter;
 
-public class TasksActivity extends AppCompatActivity implements TasksContract.View,
+public class TaskListActivity extends AppCompatActivity implements TaskListContract.View,
                                                                 OnDoneClickListener,
                                                                 OnTaskClickListener {
     private RecyclerView tasksRecycler;
-    private TasksAdapter tasksAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    private List<TaskDto> tasks;
-    private TasksContract.Presenter presenter;
+    @Inject
+    TaskListAdapter tasksAdapter;
+    @Inject
+    RecyclerView.LayoutManager layoutManager;
+
+    @Inject
+    TaskListContract.Presenter presenter;
+
     private FloatingActionButton fab;
     private ImageButton graphBtn;
     private ImageButton tasksBtn;
     private OnDoneClickListener mOnDoneClickListener;
-    private SwipeController mSwipeController;
-    private ItemTouchHelper mItemTouchHelper;
+    @Inject
+     SwipeController mSwipeController;
+    @Inject
+     ItemTouchHelper mItemTouchHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,26 +58,28 @@ public class TasksActivity extends AppCompatActivity implements TasksContract.Vi
         graphBtn = findViewById(R.id.graphbtn);
         tasksBtn = findViewById(R.id.taskbtn);
 
+        DaggerTaskListComponent.builder()
+                .appComponent(((GoalTrackingApp)getApplicationContext()).getAppComponent())
+                .taskListModule(new TaskListModule(this, this, this))
+                .build().inject(this);
 
-        tasks = new ArrayList<>();
         mOnDoneClickListener = this;
-        presenter = new TasksPresenter(this);
         presenter.onAttach(this);
         tasksRecycler.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
+        //layoutManager = new LinearLayoutManager(this);
         tasksRecycler.setLayoutManager(layoutManager);
-        tasksAdapter = new TasksAdapter(this, mOnDoneClickListener, this);
+       // tasksAdapter = new TaskListAdapter(this, mOnDoneClickListener, this);
         tasksRecycler.setAdapter(tasksAdapter);
 
-        mSwipeController = new SwipeController(new SwipeControllerActions() {
-            @Override
-            public void onRightClicked(int position) {
-                presenter.deleteTask(tasksAdapter.getTasks().get(position));
-            }
-        });
+//        mSwipeController = new SwipeController(new SwipeControllerActions() {
+//            @Override
+//            public void onRightClicked(int position) {
+//                presenter.deleteTask(tasksAdapter.getTasks().get(position));
+//            }
+//        });
         mSwipeController.setContext(this);
 
-        mItemTouchHelper = new ItemTouchHelper(mSwipeController);
+       //mItemTouchHelper = new ItemTouchHelper(mSwipeController);
         mItemTouchHelper.attachToRecyclerView(tasksRecycler);
         tasksRecycler.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -84,7 +92,7 @@ public class TasksActivity extends AppCompatActivity implements TasksContract.Vi
         tasksBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TasksActivity.this, "TASK", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TaskListActivity.this, "TASK", Toast.LENGTH_SHORT).show();
             }
         });
         fab.setOnClickListener(new View.OnClickListener() {
@@ -102,14 +110,14 @@ public class TasksActivity extends AppCompatActivity implements TasksContract.Vi
 //                t2.setCreatedAtTime("11:02pm");
 //                presenter.insertTask(t1);
 //                presenter.insertTask(t2);
-                startActivityForResult(new Intent(TasksActivity.this, TaskAddActivity.class), 1);
+                startActivityForResult(new Intent(TaskListActivity.this, TaskAddActivity.class), 1);
 
             }
         });
         graphBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TasksActivity.this, "GRAPH", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TaskListActivity.this, "GRAPH", Toast.LENGTH_SHORT).show();
             }
         });
 

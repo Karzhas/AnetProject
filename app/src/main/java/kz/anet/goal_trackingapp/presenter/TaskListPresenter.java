@@ -1,36 +1,48 @@
 package kz.anet.goal_trackingapp.presenter;
 
-import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import kz.anet.goal_trackingapp.DoneTasksComparator;
-import kz.anet.goal_trackingapp.MvpContract.TasksContract;
+import kz.anet.goal_trackingapp.MvpContract.TaskListContract;
 import kz.anet.goal_trackingapp.Task;
 import kz.anet.goal_trackingapp.TaskDto;
 import kz.anet.goal_trackingapp.TaskMapper;
-import kz.anet.goal_trackingapp.model.TaskModel;
 
-public class TasksPresenter implements TasksContract.Presenter {
+public class TaskListPresenter implements TaskListContract.Presenter {
 
-    private TasksContract.View view;
-    private TasksContract.Model model;
-    private Context context;
-    private CompositeDisposable mSubscriptions;
-    private TaskMapper mapper;
+    private TaskListContract.View view;
+    @Inject
+     TaskListContract.Model model;
+    //private Context context;
+    @Inject
+     CompositeDisposable mSubscriptions;
+    @Inject
+     TaskMapper mapper;
 
-    public TasksPresenter(Context context) {
-        this.context = context;
-        model = new TaskModel(context);
-        mSubscriptions = new CompositeDisposable();
-        mapper = new TaskMapper();
+//    public TaskListPresenter(Context context) {
+//        this.context = context;
+//        model = new TaskListModel(context);
+//        mSubscriptions = new CompositeDisposable();
+//        mapper = new TaskMapper();
+//    }
+
+    public TaskListPresenter(TaskListContract.Model model,
+                             CompositeDisposable subscriptions,
+                             TaskMapper mapper
+                             ) {
+        this.model = model;
+        mSubscriptions = subscriptions;
+        this.mapper = mapper;
     }
 
     @Override
@@ -92,7 +104,7 @@ public class TasksPresenter implements TasksContract.Presenter {
     }
 
     @Override
-    public void onAttach(TasksContract.View view) {
+    public void onAttach(TaskListContract.View view) {
         this.view = view;
     }
 

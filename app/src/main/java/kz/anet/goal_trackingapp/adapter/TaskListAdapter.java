@@ -20,18 +20,20 @@ import kz.anet.goal_trackingapp.Task;
 import kz.anet.goal_trackingapp.listener.OnDoneClickListener;
 import kz.anet.goal_trackingapp.listener.OnTaskClickListener;
 
-public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TasksViewHolder>{
+public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TasksViewHolder>{
 
     private List<Task> tasks;
     private Context mContext;
     private OnDoneClickListener doneClickListener;
     private OnTaskClickListener mOnTaskClickListener;
-    public TasksAdapter(Context context, OnDoneClickListener doneClickListener, OnTaskClickListener onTaskClickListener) {
+    public TaskListAdapter(Context context, OnDoneClickListener doneClickListener, OnTaskClickListener onTaskClickListener) {
         tasks = new ArrayList<>();
         mContext = context;
         this.mOnTaskClickListener = onTaskClickListener;
         this.doneClickListener = doneClickListener;
     }
+
+
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;

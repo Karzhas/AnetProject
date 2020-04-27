@@ -1,22 +1,28 @@
 package kz.anet.goal_trackingapp.model;
 
-import android.content.Context;
-
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import kz.anet.goal_trackingapp.MvpContract.TasksContract;
+import kz.anet.goal_trackingapp.MvpContract.TaskListContract;
 import kz.anet.goal_trackingapp.TaskDto;
 import kz.anet.goal_trackingapp.TaskRoomRepository;
 
-public class TaskModel implements TasksContract.Model {
+public class TaskListModel implements TaskListContract.Model {
+    @Inject
     TaskRoomRepository mTaskRoomRepository;
+    @Inject
     List<TaskDto> tasks;
-    public TaskModel(Context context) {
-        mTaskRoomRepository = new TaskRoomRepository(context);
-        tasks = new ArrayList<>();
+//    public TaskListModel(Context context) {
+//        mTaskRoomRepository = new TaskRoomRepository(context);
+//        tasks = new ArrayList<>();
+//    }
+
+    public TaskListModel(TaskRoomRepository taskRoomRepository, List<TaskDto> tasks) {
+        mTaskRoomRepository = taskRoomRepository;
+        this.tasks = tasks;
     }
 
     @Override
