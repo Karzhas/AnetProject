@@ -1,28 +1,19 @@
 package kz.anet.goal_trackingapp.model;
 
+import java.util.Calendar;
 import java.util.List;
-
-import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import kz.anet.goal_trackingapp.MvpContract.TaskListContract;
 import kz.anet.goal_trackingapp.TaskDto;
 import kz.anet.goal_trackingapp.TaskRoomRepository;
+import kz.anet.goal_trackingapp.utils.TimeUtils;
 
 public class TaskListModel implements TaskListContract.Model {
-    @Inject
-    TaskRoomRepository mTaskRoomRepository;
-    @Inject
-    List<TaskDto> tasks;
-//    public TaskListModel(Context context) {
-//        mTaskRoomRepository = new TaskRoomRepository(context);
-//        tasks = new ArrayList<>();
-//    }
-
-    public TaskListModel(TaskRoomRepository taskRoomRepository, List<TaskDto> tasks) {
+    private TaskRoomRepository mTaskRoomRepository;
+    public TaskListModel(TaskRoomRepository taskRoomRepository) {
         mTaskRoomRepository = taskRoomRepository;
-        this.tasks = tasks;
     }
 
     @Override
@@ -42,6 +33,27 @@ public class TaskListModel implements TaskListContract.Model {
 
     @Override
     public Completable updateTask(TaskDto task) {
+        return mTaskRoomRepository.update(task);
+    }
+
+    @Override
+    public Completable updateStatus(TaskDto task) {
+        if(task.getDone()){
+            task.setFinishedAtDate("");
+            task.setFinishedAtTime("");
+            task.setDone(false);
+        }else{
+            task.setDone(true);
+            Calendar date = Calendar.getInstance();
+            int hour = date.get(Calendar.HOUR_OF_DAY);
+            int minute = date.get(Calendar.MINUTE);
+            int year = date.get(Calendar.YEAR);
+            int month = date.get(Calendar.MONTH);
+            int day = date.get(Calendar.DAY_OF_MONTH);
+            task.setFinishedAtTime(TimeUtils.getFormattedTime(minute,hour));
+            task.setFinishedAtDate(TimeUtils.getFormattedDate(day,month+1,year));
+        }
+
         return mTaskRoomRepository.update(task);
     }
 }

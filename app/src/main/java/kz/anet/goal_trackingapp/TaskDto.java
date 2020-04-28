@@ -16,7 +16,8 @@ public class TaskDto {
     private Boolean isDone;
     private String createdAtDate;
     private String createdAtTime;
-    private String finishedAt;
+    private String finishedAtDate;
+    private String finishedAtTime;
     private String title;
     @TypeConverters({PhotosConverter.class})
     private List<String> photos = new ArrayList<>();
@@ -58,12 +59,20 @@ public class TaskDto {
         this.createdAtDate = createdAtDate;
     }
 
-    public String getFinishedAt() {
-        return finishedAt;
+    public String getFinishedAtDate() {
+        return finishedAtDate;
     }
 
-    public void setFinishedAt(String finishedAt) {
-        this.finishedAt = finishedAt;
+    public void setFinishedAtDate(String finishedAtDate) {
+        this.finishedAtDate = finishedAtDate;
+    }
+
+    public String getFinishedAtTime() {
+        return finishedAtTime;
+    }
+
+    public void setFinishedAtTime(String finishedAtTime) {
+        this.finishedAtTime = finishedAtTime;
     }
 
     public String getTitle() {

@@ -11,7 +11,7 @@ import kz.anet.goal_trackingapp.TaskDto;
 @Database(entities = {TaskDto.class}, version = 1, exportSchema = false)
 public abstract class TaskDatabase extends RoomDatabase {
     private static TaskDatabase INSTANCE;
-    private static final String DB_NAME = "tasks14.db";
+    private static final String DB_NAME = "tasks16.db";
 
     public static TaskDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
@@ -19,7 +19,7 @@ public abstract class TaskDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             TaskDatabase.class, DB_NAME)
-//                            .allowMainThreadQueries() // SHOULD NOT BE USED IN PRODUCTION !!!
+//                            .allowMainThreadQueries()
                             .build();
                 }
             }

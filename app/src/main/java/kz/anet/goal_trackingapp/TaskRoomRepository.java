@@ -4,8 +4,6 @@ import android.content.Context;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import kz.anet.goal_trackingapp.db.TaskDao;
@@ -13,17 +11,9 @@ import kz.anet.goal_trackingapp.db.TaskDatabase;
 
 public class TaskRoomRepository {
 
-   // Context context;
-    @Inject
     TaskDatabase db;
-    @Inject
     TaskDao taskDao;
 
-//    public TaskRoomRepository(Context context) {
-//        this.context = context;
-//        db = TaskDatabase.getDatabase(context);
-//        taskDao = db.taskDao();
-//    }
 
     public TaskRoomRepository(Context context) {
         this.db = TaskDatabase.getDatabase(context);

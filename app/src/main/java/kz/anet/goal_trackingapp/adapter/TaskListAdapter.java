@@ -73,14 +73,14 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TasksV
         return tasks.size();
     }
 
-    public class TasksViewHolder extends RecyclerView.ViewHolder{
+    class TasksViewHolder extends RecyclerView.ViewHolder{
         TextView title;
         TextView createdAtDate;
         ImageButton done;
         ImageButton calendar;
         ImageButton time;
         TextView createdAtTime;
-        public TasksViewHolder(@NonNull View itemView) {
+        TasksViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.txt_title);
             createdAtDate = itemView.findViewById(R.id.txt_createdAt);

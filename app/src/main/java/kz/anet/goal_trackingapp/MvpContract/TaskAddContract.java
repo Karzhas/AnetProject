@@ -9,6 +9,7 @@ public interface TaskAddContract {
     interface View{
         void showImages(List<String> images);
         void returnConstructedTask(Task task);
+        void showMessage(String message);
     }
     interface Presenter{
         void addNewImage(String imagePath);

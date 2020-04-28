@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -21,20 +19,11 @@ import kz.anet.goal_trackingapp.TaskMapper;
 public class TaskListPresenter implements TaskListContract.Presenter {
 
     private TaskListContract.View view;
-    @Inject
-     TaskListContract.Model model;
-    //private Context context;
-    @Inject
-     CompositeDisposable mSubscriptions;
-    @Inject
-     TaskMapper mapper;
+    private TaskListContract.Model model;
+    private CompositeDisposable mSubscriptions;
+    private TaskMapper mapper;
 
-//    public TaskListPresenter(Context context) {
-//        this.context = context;
-//        model = new TaskListModel(context);
-//        mSubscriptions = new CompositeDisposable();
-//        mapper = new TaskMapper();
-//    }
+
 
     public TaskListPresenter(TaskListContract.Model model,
                              CompositeDisposable subscriptions,
@@ -92,9 +81,18 @@ public class TaskListPresenter implements TaskListContract.Presenter {
 
     @Override
     public void updateTask(Task task) {
-        Boolean newMode = !task.getDone();
-        task.setDone(newMode);
         Disposable disposable = model.updateTask(mapper.toDto(task))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        ()-> view.dataChanged()
+                );
+        mSubscriptions.add(disposable);
+    }
+
+    @Override
+    public void updateStatus(Task task) {
+        Disposable disposable = model.updateStatus(mapper.toDto(task))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(

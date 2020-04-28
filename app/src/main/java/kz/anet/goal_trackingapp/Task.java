@@ -12,7 +12,8 @@ public class Task implements Parcelable {
     private Boolean isDone;
     private String createdAtDate;
     private String createdAtTime;
-    private String finishedAt;
+    private String finishedAtDate;
+    private String finishedAtTime;
     private String title;
     private List<String> photos = new ArrayList<>();
     private String description;
@@ -27,10 +28,24 @@ public class Task implements Parcelable {
         isDone = tmpIsDone == 0 ? null : tmpIsDone == 1;
         createdAtDate = in.readString();
         createdAtTime = in.readString();
-        finishedAt = in.readString();
+        finishedAtDate = in.readString();
+        finishedAtTime = in.readString();
         title = in.readString();
         photos = in.createStringArrayList();
         description = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(uid);
+        dest.writeByte((byte) (isDone == null ? 0 : isDone ? 1 : 2));
+        dest.writeString(createdAtDate);
+        dest.writeString(createdAtTime);
+        dest.writeString(finishedAtDate);
+        dest.writeString(finishedAtTime);
+        dest.writeString(title);
+        dest.writeStringList(photos);
+        dest.writeString(description);
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -77,13 +92,7 @@ public class Task implements Parcelable {
         this.createdAtDate = createdAtDate;
     }
 
-    public String getFinishedAt() {
-        return finishedAt;
-    }
 
-    public void setFinishedAt(String finishedAt) {
-        this.finishedAt = finishedAt;
-    }
 
     public String getTitle() {
         return title;
@@ -114,16 +123,19 @@ public class Task implements Parcelable {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public String getFinishedAtDate() {
+        return finishedAtDate;
+    }
 
-        dest.writeInt(uid);
-        dest.writeByte((byte) (isDone == null ? 0 : isDone ? 1 : 2));
-        dest.writeString(createdAtDate);
-        dest.writeString(createdAtTime);
-        dest.writeString(finishedAt);
-        dest.writeString(title);
-        dest.writeStringList(photos);
-        dest.writeString(description);
+    public void setFinishedAtDate(String finishedAtDate) {
+        this.finishedAtDate = finishedAtDate;
+    }
+
+    public String getFinishedAtTime() {
+        return finishedAtTime;
+    }
+
+    public void setFinishedAtTime(String finishedAtTime) {
+        this.finishedAtTime = finishedAtTime;
     }
 }

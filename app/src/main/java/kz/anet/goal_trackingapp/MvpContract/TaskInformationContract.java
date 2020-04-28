@@ -10,7 +10,6 @@ public interface TaskInformationContract {
         void setStatus(Boolean isDone);
         void setCreatedAtDate(String createdAtDate);
         void setCreatedAtTime(String createdAtTime);
-        void setFinishedAt(String finishedAt);
         void setTitle(String title);
         void setPhotos(List<String>photos);
         void setDescription(String description);
@@ -19,7 +18,6 @@ public interface TaskInformationContract {
         void getStatus(Task task);
         void getCreatedAtDate(Task task);
         void getCreatedAtTime(Task task);
-        void getFinishedAt(Task task);
         void getTitle(Task task);
         void getPhotos(Task task);
         void getDescription(Task task);

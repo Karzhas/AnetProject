@@ -4,7 +4,7 @@ import kz.anet.goal_trackingapp.MvpContract.TaskInformationContract;
 import kz.anet.goal_trackingapp.Task;
 
 public class TaskInformationPresenter implements TaskInformationContract.Presenter {
-    TaskInformationContract.View view;
+    private TaskInformationContract.View view;
 
     public TaskInformationPresenter(TaskInformationContract.View view) {
         this.view = view;
@@ -25,10 +25,7 @@ public class TaskInformationPresenter implements TaskInformationContract.Present
         view.setCreatedAtTime(task.getCreatedAtTime());
     }
 
-    @Override
-    public void getFinishedAt(Task task) {
-        view.setFinishedAt(task.getFinishedAt());
-    }
+
 
     @Override
     public void getTitle(Task task) {

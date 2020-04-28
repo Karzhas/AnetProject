@@ -24,25 +24,26 @@ import kz.anet.goal_trackingapp.MvpContract.TaskAddContract;
 import kz.anet.goal_trackingapp.R;
 import kz.anet.goal_trackingapp.Task;
 import kz.anet.goal_trackingapp.adapter.TaskImagesAdapter;
+import kz.anet.goal_trackingapp.constants.Request;
+import kz.anet.goal_trackingapp.constants.Result;
 import kz.anet.goal_trackingapp.listener.OnImageDeleteClickListener;
 import kz.anet.goal_trackingapp.presenter.TaskAddPresenter;
+import kz.anet.goal_trackingapp.utils.TimeUtils;
 
 public class TaskAddActivity extends AppCompatActivity
                             implements TaskAddContract.View, OnImageDeleteClickListener {
 
 
-    private int PICK_IMAGE_REQUEST = 1;
-    private final int REQUEST_CODE_ASK_PERMISSIONS = 2;
-    Button btnAddPhoto;
-    RecyclerView rvPhotos;
-    TaskImagesAdapter mTaskImagesAdapter;
-    EditText edTitle;
-    EditText edDescription;
-    EditText txtTime;
-    EditText txtDate;
-    Button btnAddTask;
-    ImageView imgDeletePhoto;
-    TaskAddContract.Presenter mPresenter;
+    private Button btnAddPhoto;
+    private RecyclerView rvPhotos;
+    private TaskImagesAdapter mTaskImagesAdapter;
+    private EditText edTitle;
+    private EditText edDescription;
+    private EditText txtTime;
+    private EditText txtDate;
+    private Button btnAddTask;
+    private ImageView imgDeletePhoto;
+    private TaskAddContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,52 +66,58 @@ public class TaskAddActivity extends AppCompatActivity
         rvPhotos.setAdapter(mTaskImagesAdapter);
 
         mPresenter = new TaskAddPresenter(this);
-
-        btnAddPhoto.setOnClickListener((view)->{
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-        });
-
-        btnAddTask.setOnClickListener((view)->{
-            String title = edTitle.getText().toString();
-            String desc = edDescription.getText().toString();
-            String date = txtDate.getText().toString();
-            String time = txtTime.getText().toString();
-            mPresenter.constructNewTask(title,desc,date,time);
-        });
+        btnAddPhoto.setOnClickListener(this::onAddPhotoClicked);
+        btnAddTask.setOnClickListener(this::onAddTaskClicked);
+        txtDate.setOnClickListener(this::onSelectDateClicked);
+        txtTime.setOnClickListener(this::onSelectTimeClicked);
 
 
-        txtDate.setOnClickListener((view)->{
-            Calendar mcurrentDate = Calendar.getInstance();
-            int mYear = mcurrentDate.get(Calendar.YEAR);
-            int mMonth = mcurrentDate.get(Calendar.MONTH);
-            int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-            DatePickerDialog mDatePicker;
-            mDatePicker = new DatePickerDialog(TaskAddActivity.this, (datepicker, selectedyear, selectedmonth, selectedday) -> {
-                selectedmonth = selectedmonth + 1;
-                txtDate.setText("" + selectedday + "/" + selectedmonth + "/" + selectedyear);
-            }, mYear, mMonth, mDay);
-            mDatePicker.setTitle("Select Date");
-            mDatePicker.show();
-        });
+    }
 
-        txtTime.setOnClickListener((view)->{
-            Calendar mcurrentTime = Calendar.getInstance();
-            int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-            int minute = mcurrentTime.get(Calendar.MINUTE);
-            TimePickerDialog mTimePicker;
-            mTimePicker = new TimePickerDialog(TaskAddActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                    txtTime.setText( selectedHour + ":" + selectedMinute);
-                }
-            }, hour, minute, true);//Yes 24 hour time
-            mTimePicker.setTitle("Select Time");
-            mTimePicker.show();
-        });
+    private void onSelectTimeClicked(View view) {
+        Calendar currentTime = Calendar.getInstance();
+        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = currentTime.get(Calendar.MINUTE);
+        TimePickerDialog mTimePicker;
+        mTimePicker = new TimePickerDialog(TaskAddActivity.this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                String formattedTime = TimeUtils.getFormattedTime(selectedMinute, selectedHour);
+                txtTime.setText(formattedTime);
+            }
+        }, hour, minute, true);//Yes 24 hour time
+        mTimePicker.setTitle("Select Time");
+        mTimePicker.show();
+    }
+
+    private void onSelectDateClicked(View view) {
+        Calendar currentDate = Calendar.getInstance();
+        int year = currentDate.get(Calendar.YEAR);
+        int month = currentDate.get(Calendar.MONTH);
+        int day = currentDate.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog mDatePicker;
+        mDatePicker = new DatePickerDialog(TaskAddActivity.this, (datepicker, selectedYear, selectedMonth, selectedDay) -> {
+            String formattedDate = TimeUtils.getFormattedDate(selectedDay, selectedMonth+1, selectedYear);
+            txtDate.setText(formattedDate);
+        }, year, month, day);
+        mDatePicker.setTitle("Select Date");
+        mDatePicker.show();
+    }
+
+    private void onAddTaskClicked(View view) {
+        String title = edTitle.getText().toString();
+        String desc = edDescription.getText().toString();
+        String date = txtDate.getText().toString();
+        String time = txtTime.getText().toString();
+        mPresenter.constructNewTask(title,desc,date,time);
+    }
+
+    private void onAddPhotoClicked(View view) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), Request.REQUEST_IMAGE_PICK);
 
     }
 
@@ -118,11 +125,12 @@ public class TaskAddActivity extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case REQUEST_CODE_ASK_PERMISSIONS:
+            case Request.REQUEST_ASK_PERMISSIONS:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // do your stuff
+                    Toast.makeText(this, "Permission granted",
+                            Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "GET_ACCOUNTS Denied",
+                    Toast.makeText(this, "Permission denied",
                             Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -139,9 +147,12 @@ public class TaskAddActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            mPresenter.addNewImage(data.getData().toString());
+        if (requestCode == Request.REQUEST_IMAGE_PICK){
+            if(resultCode == RESULT_OK && data != null && data.getData() != null){
+                mPresenter.addNewImage(data.getData().toString());
+            }
         }
+
     }
 
 
@@ -154,11 +165,16 @@ public class TaskAddActivity extends AppCompatActivity
 
     @Override
     public void returnConstructedTask(Task task) {
-        int resultCode = 10;
+        int resultCode = Result.OK;
         Intent resultIntent = new Intent();
         resultIntent.putExtra("newTask", task);
         setResult(resultCode, resultIntent);
         finish();
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override

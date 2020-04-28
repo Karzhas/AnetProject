@@ -7,7 +7,7 @@ import kz.anet.goal_trackingapp.MvpContract.TaskAddContract;
 import kz.anet.goal_trackingapp.Task;
 
 public class TaskAddModel implements TaskAddContract.Model {
-    List<String> images;
+    private List<String> images;
     public TaskAddModel(){
         images = new ArrayList<>();
     }
@@ -26,7 +26,8 @@ public class TaskAddModel implements TaskAddContract.Model {
         newTask.setCreatedAtDate(date);
         newTask.setCreatedAtTime(time);
         newTask.setDone(false);
-        newTask.setFinishedAt("");
+        newTask.setFinishedAtDate("");
+        newTask.setFinishedAtTime("");
         return newTask;
     }
 

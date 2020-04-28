@@ -1,21 +1,28 @@
 package kz.anet.goal_trackingapp.view;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import java.util.Calendar;
 import java.util.List;
 
 import kz.anet.goal_trackingapp.MvpContract.TaskInformationContract;
 import kz.anet.goal_trackingapp.R;
 import kz.anet.goal_trackingapp.Task;
 import kz.anet.goal_trackingapp.adapter.SlidingImagesAdapter;
+import kz.anet.goal_trackingapp.constants.Result;
 import kz.anet.goal_trackingapp.presenter.TaskInformationPresenter;
+import kz.anet.goal_trackingapp.utils.TimeUtils;
 
 public class TaskInformationActivity extends AppCompatActivity
             implements TaskInformationContract.View {
@@ -44,15 +51,46 @@ public class TaskInformationActivity extends AppCompatActivity
         mSlidingImagesAdapter = new SlidingImagesAdapter(this);
         mViewPagerImages.setAdapter(mSlidingImagesAdapter);
         mPresenter = new TaskInformationPresenter(this);
-        setup();
+        setupTask();
+
     }
 
-    public void setup(){
+    public void onDateClicked(View view){
+        Calendar currentDate = Calendar.getInstance();
+        int mYear = currentDate.get(Calendar.YEAR);
+        int mMonth = currentDate.get(Calendar.MONTH);
+        int mDay = currentDate.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog mDatePicker;
+        mDatePicker = new DatePickerDialog(TaskInformationActivity.this, (datepicker, selectedYear, selectedMonth, selectedDay) -> {
+            String formattedDate = TimeUtils.getFormattedDate(selectedDay, selectedMonth+1, selectedYear);
+            edDate.setText(formattedDate);
+        }, mYear, mMonth, mDay);
+        mDatePicker.setTitle("Select Date");
+        mDatePicker.show();
+    }
+
+    public void onTimeClicked(View view){
+        Calendar currentTime = Calendar.getInstance();
+        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = currentTime.get(Calendar.MINUTE);
+        TimePickerDialog mTimePicker;
+        mTimePicker = new TimePickerDialog(TaskInformationActivity.this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                String formattedTime = TimeUtils.getFormattedTime(selectedMinute, selectedHour);
+                edTime.setText(formattedTime);
+            }
+        }, hour, minute, true);
+        mTimePicker.setTitle("Select Time");
+        mTimePicker.show();
+    }
+
+
+    public void setupTask(){
         Task currentTask = data.getParcelableExtra("task");
         mPresenter.getCreatedAtDate(currentTask);
         mPresenter.getCreatedAtTime(currentTask);
         mPresenter.getDescription(currentTask);
-        mPresenter.getFinishedAt(currentTask);
         mPresenter.getPhotos(currentTask);
         mPresenter.getTitle(currentTask);
         mPresenter.getStatus(currentTask);
@@ -79,10 +117,6 @@ public class TaskInformationActivity extends AppCompatActivity
         edTime.setText(createdAtTime);
     }
 
-    @Override
-    public void setFinishedAt(String finishedAt) {
-
-    }
 
     @Override
     public void setTitle(String title) {
@@ -119,7 +153,7 @@ public class TaskInformationActivity extends AppCompatActivity
     }
 
     private void onSaveClicked() {
-        int resultCode = 10;
+        int resultCode = Result.OK;
         Intent resultIntent = new Intent();
         Task updatedTask = data.getParcelableExtra("task");
         updatedTask.setTitle(edTitle.getText().toString());
@@ -133,11 +167,11 @@ public class TaskInformationActivity extends AppCompatActivity
 
     private void onEditClicked() {
         edDesc.setFocusableInTouchMode(true);
-        edDate.setFocusableInTouchMode(true);
         edTitle.setFocusableInTouchMode(true);
-        edTime.setFocusableInTouchMode(true);
         edDesc.setFocusableInTouchMode(true);
         menuEdit.setVisible(false);
         menuSave.setVisible(true);
+        edDate.setOnClickListener(this::onDateClicked);
+        edTime.setOnClickListener(this::onTimeClicked);
     }
 }

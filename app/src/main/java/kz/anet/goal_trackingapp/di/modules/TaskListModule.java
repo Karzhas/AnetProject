@@ -1,7 +1,9 @@
 package kz.anet.goal_trackingapp.di.modules;
 
 import android.content.Context;
+import android.graphics.Canvas;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -64,8 +66,8 @@ public class TaskListModule {
 
     @ActivityScope
     @Provides
-    TaskListContract.Model provideModel(TaskRoomRepository taskRoomRepository,List<TaskDto> tasks){
-        return new TaskListModel(taskRoomRepository, tasks);
+    TaskListContract.Model provideModel(TaskRoomRepository taskRoomRepository){
+        return new TaskListModel(taskRoomRepository);
     }
 
     @ActivityScope
@@ -124,6 +126,17 @@ public class TaskListModule {
     @Provides
     ItemTouchHelper provideItemTouchHelper(SwipeController swipeController){
         return new ItemTouchHelper(swipeController);
+    }
+
+    @ActivityScope
+    @Provides
+    RecyclerView.ItemDecoration provideItemDecor(SwipeController swipeController){
+        return new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                swipeController.onDraw(c);
+            }
+        };
     }
 
 

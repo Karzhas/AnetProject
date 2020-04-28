@@ -8,8 +8,8 @@ import kz.anet.goal_trackingapp.model.TaskAddModel;
 
 public class TaskAddPresenter implements TaskAddContract.Presenter {
 
-    TaskAddContract.Model mModel;
-    TaskAddContract.View mView;
+    private TaskAddContract.Model mModel;
+    private TaskAddContract.View mView;
     public TaskAddPresenter(TaskAddContract.View view){
         mView = view;
         mModel = new TaskAddModel();
@@ -30,7 +30,12 @@ public class TaskAddPresenter implements TaskAddContract.Presenter {
 
     @Override
     public void constructNewTask(String title, String desc, String date, String time) {
-        Task task = mModel.constructNewTask(title, desc, date,time);
-        mView.returnConstructedTask(task);
+        if(date.equals("") || time.equals("")){
+            mView.showMessage("Select date and time");
+        }else{
+            Task task = mModel.constructNewTask(title, desc, date,time);
+            mView.returnConstructedTask(task);
+        }
+
     }
 }

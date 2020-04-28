@@ -21,9 +21,9 @@ import kz.anet.goal_trackingapp.listener.OnImageDeleteClickListener;
 
 public class TaskImagesAdapter extends RecyclerView.Adapter<TaskImagesAdapter.ImageViewHolder> {
 
-    List<String> images;
-    Context context;
-    OnImageDeleteClickListener listener;
+    private List<String> images;
+    private Context context;
+    private OnImageDeleteClickListener listener;
 
     public TaskImagesAdapter(Context context, OnImageDeleteClickListener onImageDeleteClickListener) {
         this.context = context;
@@ -61,10 +61,10 @@ public class TaskImagesAdapter extends RecyclerView.Adapter<TaskImagesAdapter.Im
     }
 
 
-    public class ImageViewHolder extends RecyclerView.ViewHolder{
+    class ImageViewHolder extends RecyclerView.ViewHolder{
         ImageView image;
         ImageView deleteImage;
-        public ImageViewHolder(@NonNull View itemView) {
+        ImageViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.img_photo);
             deleteImage = itemView.findViewById(R.id.img_delete_photo);

@@ -8,7 +8,8 @@ public class TaskMapper {
         task.setDone(dto.getDone());
         task.setCreatedAtTime(dto.getCreatedAtTime());
         task.setCreatedAtDate(dto.getCreatedAtDate());
-        task.setFinishedAt(dto.getFinishedAt());
+        task.setFinishedAtDate(dto.getFinishedAtDate());
+        task.setFinishedAtTime(dto.getFinishedAtTime());
         task.setPhotos(dto.getPhotos());
         task.setTitle(dto.getTitle());
         task.setDescription(dto.getDescription());
@@ -20,7 +21,8 @@ public class TaskMapper {
         task.setDone(item.getDone());
         task.setCreatedAtTime(item.getCreatedAtTime());
         task.setCreatedAtDate(item.getCreatedAtDate());
-        task.setFinishedAt(item.getFinishedAt());
+        task.setFinishedAtDate(item.getFinishedAtDate());
+        task.setFinishedAtTime(item.getFinishedAtTime());
         task.setPhotos(item.getPhotos());
         task.setTitle(item.getTitle());
         task.setDescription(item.getDescription());

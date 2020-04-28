@@ -17,6 +17,7 @@ public interface TaskListContract {
         void insertTask(Task task);
         void deleteTask(Task task);
         void updateTask(Task task);
+        void updateStatus(Task task);
         void onAttach(TaskListContract.View view);
         void onDetach();
     }
@@ -25,5 +26,7 @@ public interface TaskListContract {
         Completable insertTask(TaskDto task);
         Completable deleteTask(TaskDto task);
         Completable updateTask(TaskDto task);
+        Completable updateStatus(TaskDto task);
+
     }
 }
