@@ -1,9 +1,10 @@
 package kz.anet.goal_trackingapp.model;
 
-import com.jjoe64.graphview.series.DataPoint;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,7 +29,7 @@ public class GraphModel implements GraphContract.Model {
     }
 
     @Override
-    public Single<DataPoint[]> getGraphData() {
+    public Single<BarData> getGraphData() {
         return mTaskRoomRepository.getAll()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -42,7 +43,7 @@ public class GraphModel implements GraphContract.Model {
 
     }
 
-    private DataPoint[] populateDataPoints(List<Task> modelTask) {
+    private BarData populateDataPoints(List<Task> modelTask) {
         int[] counterByMonth = new int[13];
         for(Task task : modelTask){
             if(!task.getDone())
@@ -51,12 +52,12 @@ public class GraphModel implements GraphContract.Model {
             counterByMonth[currentMonth]++;
 
         }
-        DataPoint[] dataPoints = new DataPoint[3];
-        List<Date> dates = TimeUtils.getListOfMonthAsDate();
-        for(int i = 1; i <= 3; i++){
-            dataPoints[i-1] = new DataPoint(dates.get(i-1), counterByMonth[i]);
+        List<BarEntry> entries = new ArrayList<>();
+        for(int i = 0; i <= 11; i++){
+            entries.add(new BarEntry(i, counterByMonth[i+1]));
         }
-        return dataPoints;
+        BarDataSet set = new BarDataSet(entries, "");
+        return new BarData(set);
     }
 
 

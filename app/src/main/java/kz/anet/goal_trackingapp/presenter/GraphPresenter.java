@@ -1,7 +1,6 @@
 package kz.anet.goal_trackingapp.presenter;
 
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
+import com.github.mikephil.charting.data.BarData;
 
 import javax.inject.Inject;
 
@@ -28,8 +27,8 @@ public class GraphPresenter implements GraphContract.Presenter{
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        (DataPoint[] dataPoints) -> {
-                            mView.showGraph(dataPoints);
+                        (BarData data) -> {
+                            mView.showGraph(data);
                         }
                 );
         mSubscriptions.add(disposable);

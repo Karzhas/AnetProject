@@ -1,13 +1,13 @@
 package kz.anet.goal_trackingapp.MvpContract;
 
-import com.jjoe64.graphview.series.DataPoint;
+import com.github.mikephil.charting.data.BarData;
 
 import io.reactivex.Single;
 
 public interface GraphContract {
 
     interface View{
-        void showGraph(DataPoint[] dataPoints);
+        void showGraph(BarData data);
     }
     interface Presenter{
         void getGraphData();
@@ -15,7 +15,7 @@ public interface GraphContract {
         void onDetach();
     }
     interface Model{
-        Single<DataPoint[]> getGraphData();
+        Single<BarData> getGraphData();
     }
 
 
