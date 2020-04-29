@@ -18,7 +18,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import kz.anet.goal_trackingapp.GoalTrackingApp;
-import kz.anet.goal_trackingapp.GraphActivity;
 import kz.anet.goal_trackingapp.MvpContract.TaskListContract;
 import kz.anet.goal_trackingapp.R;
 import kz.anet.goal_trackingapp.SwipeController;

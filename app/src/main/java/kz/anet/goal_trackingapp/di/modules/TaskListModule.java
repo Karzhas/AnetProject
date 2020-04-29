@@ -58,11 +58,6 @@ public class TaskListModule {
     }
 
 
-    @ActivityScope
-    @Provides
-    TaskMapper provideMapper(){
-        return new TaskMapper();
-    }
 
     @ActivityScope
     @Provides
@@ -70,11 +65,7 @@ public class TaskListModule {
         return new TaskListModel(taskRoomRepository);
     }
 
-    @ActivityScope
-    @Provides
-    TaskRoomRepository provideTaskRoomRepository(Context context){
-        return new TaskRoomRepository(context);
-    }
+
 
     @ActivityScope
     @Provides

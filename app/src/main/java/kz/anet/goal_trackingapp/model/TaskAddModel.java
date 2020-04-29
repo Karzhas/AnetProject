@@ -28,6 +28,11 @@ public class TaskAddModel implements TaskAddContract.Model {
         newTask.setDone(false);
         newTask.setFinishedAtDate("");
         newTask.setFinishedAtTime("");
+
+        newTask.setFinishedAtDate("11/12/1999");
+        newTask.setDone(true);
+
+
         return newTask;
     }
 
