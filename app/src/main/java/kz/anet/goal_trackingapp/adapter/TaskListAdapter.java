@@ -16,31 +16,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kz.anet.goal_trackingapp.R;
-import kz.anet.goal_trackingapp.Task;
+import kz.anet.goal_trackingapp.models.Task;
 import kz.anet.goal_trackingapp.listener.OnDoneClickListener;
 import kz.anet.goal_trackingapp.listener.OnTaskClickListener;
 
 public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TasksViewHolder>{
 
-    private List<Task> tasks;
+    private List<Task> mTasks;
     private Context mContext;
-    private OnDoneClickListener doneClickListener;
+    private OnDoneClickListener mDoneClickListener;
     private OnTaskClickListener mOnTaskClickListener;
     public TaskListAdapter(Context context, OnDoneClickListener doneClickListener, OnTaskClickListener onTaskClickListener) {
-        tasks = new ArrayList<>();
+        mTasks = new ArrayList<>();
         mContext = context;
         this.mOnTaskClickListener = onTaskClickListener;
-        this.doneClickListener = doneClickListener;
+        this.mDoneClickListener = doneClickListener;
     }
 
 
 
     public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+        this.mTasks = tasks;
     }
 
     public List<Task> getTasks() {
-        return tasks;
+        return mTasks;
     }
 
     @NonNull
@@ -53,7 +53,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TasksV
 
     @Override
     public void onBindViewHolder(@NonNull TasksViewHolder holder, int pos) {
-        Task currentTask = tasks.get(pos);
+        Task currentTask = mTasks.get(pos);
         holder.title.setText(currentTask.getTitle());
         holder.createdAtDate.setText(currentTask.getCreatedAtDate());
         holder.createdAtTime.setText(currentTask.getCreatedAtTime());
@@ -70,7 +70,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TasksV
 
     @Override
     public int getItemCount() {
-        return tasks.size();
+        return mTasks.size();
     }
 
     class TasksViewHolder extends RecyclerView.ViewHolder{
@@ -90,11 +90,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TasksV
             createdAtTime = itemView.findViewById(R.id.txt_created_time);
 
             done.setOnClickListener((view)-> {
-                Task currentTask = tasks.get(getAdapterPosition());
-                doneClickListener.onDoneClick(currentTask);
+                Task currentTask = mTasks.get(getAdapterPosition());
+                mDoneClickListener.onDoneClick(currentTask);
             });
             itemView.setOnClickListener((view)-> {
-                Task currentTask = tasks.get(getAdapterPosition());
+                Task currentTask = mTasks.get(getAdapterPosition());
                 mOnTaskClickListener.onTaskClick(currentTask);
             });
         }

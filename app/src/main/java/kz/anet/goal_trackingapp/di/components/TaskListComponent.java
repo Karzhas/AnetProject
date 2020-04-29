@@ -3,7 +3,7 @@ package kz.anet.goal_trackingapp.di.components;
 import dagger.Component;
 import kz.anet.goal_trackingapp.di.modules.TaskListModule;
 import kz.anet.goal_trackingapp.di.scopes.ActivityScope;
-import kz.anet.goal_trackingapp.view.TaskListActivity;
+import kz.anet.goal_trackingapp.ui.view.TaskListActivity;
 
 @ActivityScope
 @Component(dependencies = {AppComponent.class}, modules = {TaskListModule.class})

@@ -21,18 +21,18 @@ import kz.anet.goal_trackingapp.listener.OnImageDeleteClickListener;
 
 public class TaskImagesAdapter extends RecyclerView.Adapter<TaskImagesAdapter.ImageViewHolder> {
 
-    private List<String> images;
-    private Context context;
-    private OnImageDeleteClickListener listener;
+    private List<String> mImages;
+    private Context mContext;
+    private OnImageDeleteClickListener mListener;
 
     public TaskImagesAdapter(Context context, OnImageDeleteClickListener onImageDeleteClickListener) {
-        this.context = context;
-        images = new ArrayList<>();
-        listener = onImageDeleteClickListener;
+        this.mContext = context;
+        mImages = new ArrayList<>();
+        mListener = onImageDeleteClickListener;
     }
 
     public void setImages(List<String> images) {
-        this.images = images;
+        this.mImages = images;
     }
 
     @NonNull
@@ -45,19 +45,23 @@ public class TaskImagesAdapter extends RecyclerView.Adapter<TaskImagesAdapter.Im
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        String imagePath = images.get(position);
+        String imagePath = mImages.get(position);
         Uri uri = Uri.parse(imagePath);
         try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(mContext.getContentResolver(), uri);
             holder.image.setImageBitmap(bitmap);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    public List<String> getImages() {
+        return mImages;
+    }
+
     @Override
     public int getItemCount() {
-        return images.size();
+        return mImages.size();
     }
 
 
@@ -70,8 +74,8 @@ public class TaskImagesAdapter extends RecyclerView.Adapter<TaskImagesAdapter.Im
             deleteImage = itemView.findViewById(R.id.img_delete_photo);
 
             deleteImage.setOnClickListener((view)->{
-                Boolean isLastImage = images.size() == 1;
-                listener.onDeleteImageClick(images.get(getAdapterPosition()), isLastImage);
+                Boolean isLastImage = mImages.size() == 1;
+                mListener.onDeleteImageClick(mImages.get(getAdapterPosition()), isLastImage);
             });
 
         }

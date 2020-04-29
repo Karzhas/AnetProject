@@ -4,10 +4,7 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class TimeUtils {
     public static String getFormattedDate(int day, int month, int year){
@@ -46,31 +43,22 @@ public class TimeUtils {
         return returnedValue;
     }
 
-    public static List<Date> getListOfMonthAsDate(){
-        List<Date> dates = new ArrayList<>();
-        for(int i = 1; i <= 12; i++){
-            Calendar c = Calendar.getInstance();
-            c.set(2000,i,1);
-            dates.add(c.getTime());
-        }
-        return dates;
 
-    }
 
     public static String[] getMonthArray(){
         return new String[]{
-                "jan",
-                "feb",
-                "mar",
-                "apr",
-                "may",
-                "jun",
-                "jul",
-                "aug",
-                "sep",
-                "oct",
-                "nov",
-                "dec"
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
         };
     }
     public static String getMonthTitleFromNumber(double value) {

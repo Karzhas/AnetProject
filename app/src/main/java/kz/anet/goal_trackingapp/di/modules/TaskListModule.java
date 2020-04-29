@@ -14,18 +14,18 @@ import java.util.List;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.disposables.CompositeDisposable;
-import kz.anet.goal_trackingapp.MvpContract.TaskListContract;
-import kz.anet.goal_trackingapp.SwipeController;
-import kz.anet.goal_trackingapp.SwipeControllerActions;
-import kz.anet.goal_trackingapp.TaskDto;
-import kz.anet.goal_trackingapp.TaskMapper;
-import kz.anet.goal_trackingapp.TaskRoomRepository;
+import kz.anet.goal_trackingapp.ui.contracts.TaskListContract;
+import kz.anet.goal_trackingapp.ui.view.SwipeController;
+import kz.anet.goal_trackingapp.listener.SwipeControllerActions;
+import kz.anet.goal_trackingapp.data.model.TaskDto;
+import kz.anet.goal_trackingapp.data.TaskMapper;
+import kz.anet.goal_trackingapp.data.db.TaskRoomRepository;
 import kz.anet.goal_trackingapp.adapter.TaskListAdapter;
 import kz.anet.goal_trackingapp.di.scopes.ActivityScope;
 import kz.anet.goal_trackingapp.listener.OnDoneClickListener;
 import kz.anet.goal_trackingapp.listener.OnTaskClickListener;
-import kz.anet.goal_trackingapp.model.TaskListModel;
-import kz.anet.goal_trackingapp.presenter.TaskListPresenter;
+import kz.anet.goal_trackingapp.ui.model.TaskListModel;
+import kz.anet.goal_trackingapp.ui.presenter.TaskListPresenter;
 
 @ActivityScope
 @Module

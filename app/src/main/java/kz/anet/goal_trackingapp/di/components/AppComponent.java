@@ -4,8 +4,8 @@ import android.content.Context;
 
 import dagger.Component;
 import io.reactivex.disposables.CompositeDisposable;
-import kz.anet.goal_trackingapp.TaskMapper;
-import kz.anet.goal_trackingapp.TaskRoomRepository;
+import kz.anet.goal_trackingapp.data.TaskMapper;
+import kz.anet.goal_trackingapp.data.db.TaskRoomRepository;
 import kz.anet.goal_trackingapp.di.modules.ContextModule;
 import kz.anet.goal_trackingapp.di.modules.MappersModule;
 import kz.anet.goal_trackingapp.di.modules.RoomModule;

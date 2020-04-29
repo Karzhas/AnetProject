@@ -4,7 +4,7 @@ import android.content.Context;
 
 import dagger.Module;
 import dagger.Provides;
-import kz.anet.goal_trackingapp.TaskRoomRepository;
+import kz.anet.goal_trackingapp.data.db.TaskRoomRepository;
 import kz.anet.goal_trackingapp.di.scopes.AppScope;
 
 @AppScope
